@@ -1,9 +1,44 @@
+import React from 'react'
+
+const Chart = () => {
+  return (
+    <div>
+      charts
+    </div>
+  )
+}
+
+export default Chart
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 import React from 'react';
 import { useTheme } from '@material-ui/core/styles';
 import { LineChart, Line, XAxis, YAxis, Label, ResponsiveContainer } from 'recharts';
 import Title from './Title';
 
-// Generate Sales Data
+Generate Sales Data
 function createData(time, amount) {
   return { time, amount };
 }
@@ -51,4 +86,4 @@ export default function Chart() {
       </ResponsiveContainer>
     </React.Fragment>
   );
-}
+}*/

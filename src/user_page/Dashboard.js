@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -15,17 +15,23 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
-import { mainListItems, secondaryListItems } from './listItems';
+import { mainListItems } from './listItems';
 import Chart from './Chart';
 import Deposits from './Deposits';
 import Orders from './Orders';
 import {Link} from 'react-router-dom'
+import Axios from 'axios'
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+import {Redirect} from 'react-router-dom';
+import Publish from '../components/Publish';
+
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      <Link color="inherit" href="https://material-ui.com/">
+      <Link color="inherit" to="https://material-ui.com/">
         Your Website
       </Link>{' '}
       {new Date().getFullYear()}
@@ -112,12 +118,27 @@ const useStyles = makeStyles((theme) => ({
   },
   fixedHeight: {
     height: 240,
+  },searchField: {
+    '& > *': {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
   },
+
 }));
+
 
 export default function Dashboard() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
+  const [edit, setEdit] = React.useState("")
+  const [data, setData] = React.useState({
+    page: {},
+    websites: [{
+      category: "ssfgdhfjgk", state: "dtyfuygj", district: "45wdrytfgvhj", url: "4e5r6tfyguh", title: "456435278"
+    }]
+  })
+  const [id, setId] = React.useState("")
   const handleDrawerOpen = () => {
     setOpen(true);
   };
@@ -125,6 +146,28 @@ export default function Dashboard() {
     setOpen(false);
   };
   const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
+
+
+  useEffect(()=>{
+    const getWebsites = async () => {
+    const Id = sessionStorage.getItem('userId')
+    setId(Id)
+      const users = await Axios.get(`http://3.7.205.75:8080/publish/website?userId=${id}`);  
+      const hits = users.data
+      setData(hits)
+      setEdit(hits.websites)
+      console.log(hits.websites)
+    };
+    getWebsites()
+
+  },[id])
+  const handlePublish = () => (
+    (<Redirect to="/dashboard/publish" component={Publish} />)
+  )
+  const handleEdit = () => (
+    edit.map((id)=>{
+      
+    })
 
   return (
     <div className={classes.root}>
@@ -143,13 +186,7 @@ export default function Dashboard() {
           <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
             Dashboard
           </Typography>
-          <Link to="/"  component="h6" >
-            Publish
-          </Link>
-          <Box m={2}/>
-          <Link component="h6" color="inherit">
-            Logout
-          </Link>
+          
         </Toolbar>
       </AppBar>
       <Drawer
@@ -165,9 +202,7 @@ export default function Dashboard() {
           </IconButton>
         </div>
         <Divider />
-        <List>{mainListItems}</List>
-        <Divider />
-        <List>{secondaryListItems}</List>
+        <List>{mainListItems}</List>       
       </Drawer>
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
@@ -176,19 +211,24 @@ export default function Dashboard() {
             {/* Chart */}
             <Grid item xs={12} md={8} lg={9}>
               <Paper className={fixedHeightPaper}>
-                <Chart />
+                <Chart data={data} />
               </Paper>
             </Grid>
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits />
+                <Deposits data={data}/>
               </Paper>
             </Grid>
+            <form className={classes.searchField} noValidate autoComplete="off">
+            <TextField id="standard-basic" label="Standard" />
+            <Button>Search</Button>
+            </form>
+            <Link to="/dashboard/publish" ><Button onClick={handlePublish}>Publish</Button></Link>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>
-                <Orders />
+                <Orders data={data}/>
               </Paper>
             </Grid>
           </Grid>

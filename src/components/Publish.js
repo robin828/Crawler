@@ -1,26 +1,112 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react';
+import Avatar from '@material-ui/core/Avatar';
+import Button from '@material-ui/core/Button';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import TextField from '@material-ui/core/TextField';
+import Grid from '@material-ui/core/Grid';
+import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Container from '@material-ui/core/Container';
+import {Link} from 'react-router-dom'
+import Axios from 'axios'
 
-const Publish = () => {
-    return <Container component="main" maxWidth="xs">
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    marginTop: theme.spacing(8),
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: theme.palette.secondary.main,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(3),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
+
+const Publish = (props) => {
+  const classes = useStyles();
+  const [states, setStates] = useState({})
+  const publishWebsite = (e) => {
+    e.preventDefault()
+    fetch('http://3.7.205.75:8080/publish/website', {
+    method: 'post',
+    body: JSON.stringify({
+        category: category,
+        location: location,
+        district: district,
+        url: url,
+        title: title,
+        userId: props.local,
+    }),
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    }
+  })
+  .then(response => response.json())
+  .then(json => console.log(json.status))
+  
+
+}
+useEffect(()=>{
+const fetchState = () => {
+  Axios.get('http://3.7.205.75:8080/states')
+  .then(res=>console.log(res.data))
+}
+fetchState()
+})
+
+const [category, setCategory] = useState('')
+const [location, setLocation] = useState('')
+const [district, setDistrict] = useState('')
+const [url, setUrl] = useState('')
+const [title, setTitle] = useState('')
+
+
+const handleCategory = (e) => {
+  setCategory(e.target.value)
+}
+const handleLocation = (e) => {
+  setLocation(e.target.value)
+}
+const handleDistrict = (e) => {
+  setDistrict(e.target.value)
+}
+const handleUrl = (e) => {
+  setUrl(e.target.value)
+}
+const handleTitle = (e) => {
+  setTitle(e.target.value)
+}  
+    return (
+    <Container component="main" maxWidth="xs">
     <CssBaseline />
     <div className={classes.paper}>
       <Avatar className={classes.avatar}>
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        Sign up
+        Publish Website
       </Typography>
-      <form className={classes.form} onSubmit={register}>
+      <form className={classes.form} onSubmit={publishWebsite}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
             <TextField
-              onChange={handleFname}
-              name="firstName"
+              name="category"
+              value={category}
+              onChange={handleCategory}
               variant="outlined"
               required
               fullWidth
-              id="firstName"
-              label="First Name"
+              id="category"
+              label="Category"
               autoFocus
             />
           </Grid>
@@ -29,79 +115,53 @@ const Publish = () => {
               variant="outlined"
               required
               fullWidth
-              id="lastName"
-              label="Last Name"
-              name="lastName"
-              onChange={handleLName}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              id="email"
-              label="User Id"
-              name="User Id"
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              onChange={handlePassword}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="cnfrmpassword"
-              label="Confirm Password"
-              type="password"
-              id="cnfrmpassword"
-              onChange={handleConfirmPassword}
-            />
-          </Grid>
-
-<Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="mobile"
-              label="Mobile No."
+              name="title"
+              label="Title"
               type="text"
-              id="mobile"
-              onChange={handleMobile}
+              id="title"
+              value={title}
+              onChange={handleTitle}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
               variant="outlined"
+              value={url}
+              onChange={handleUrl}
               required
               fullWidth
-              name="state"
+              name="url"
+              label="Url"
+              id="url"
+            />
+          </Grid>
+          <Grid item xs={12}>
+           
+            <TextField
+              variant="outlined"
+              type="text" value={location}
+              onChange={handleLocation}
+              required
+              fullWidth
+              id="location"
               label="State"
-              type="text"
-              id="state"
-              onChange={handleState}
+              name="location"
             />
           </Grid>
           <Grid item xs={12}>
-            <FormControlLabel
-              control={<Checkbox value="allowExtraEmails" color="primary" />}
-              label="I want to receive inspiration, marketing promotions and updates via email."
+            <TextField
+              variant="outlined"
+              value={district}
+              onChange={handleDistrict}
+              required
+              fullWidth
+              id="district"
+              label="District"
+              name="District"
             />
           </Grid>
-        </Grid>
+          
+                    
         <Button
           type="submit"
           fullWidth
@@ -109,7 +169,7 @@ const Publish = () => {
           color="primary"
           className={classes.submit}
         >
-          Sign Up
+          Publish
         </Button>
         <Grid container justify="flex-end">
           <Grid item>
@@ -118,14 +178,12 @@ const Publish = () => {
             </Link>
           </Grid>
         </Grid>
+        </Grid>
       </form>
     </div>
-    <Box mt={5}>
-      <Copyright />
-    </Box>
   </Container>
 );
 
-}
+    }
 
 export default Publish

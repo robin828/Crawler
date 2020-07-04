@@ -76,6 +76,7 @@ headers: {
     console.log(json.status)
     if(json.status==="SUCCESS"){
         setLoggedIn(true)
+        props.setLocal(json.userId)
         sessionStorage.setItem('userId',json.userId)
     }
   })
@@ -84,7 +85,6 @@ headers: {
     if(loggedIn){
         return (<Redirect to="/dashboard"/>)
     }else{
-
   return (
 
     <Container component="main" maxWidth="xs">

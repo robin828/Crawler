@@ -7,19 +7,9 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
-
-// Generate Order Data
-function createData(id, date, name, shipTo, paymentMethod, amount) {
-  return { id, date, name, shipTo, paymentMethod, amount };
-}
-
-const rows = [
-  createData(0, '16 Mar, 2019', 'Elvis Presley', 'Tupelo, MS', 'VISA ⠀•••• 3719', 312.44),
-  createData(1, '16 Mar, 2019', 'Paul McCartney', 'London, UK', 'VISA ⠀•••• 2574', 866.99),
-  createData(2, '16 Mar, 2019', 'Tom Scholz', 'Boston, MA', 'MC ⠀•••• 1253', 100.81),
-  createData(3, '16 Mar, 2019', 'Michael Jackson', 'Gary, IN', 'AMEX ⠀•••• 2000', 654.39),
-  createData(4, '15 Mar, 2019', 'Bruce Springsteen', 'Long Branch, NJ', 'VISA ⠀•••• 5919', 212.79),
-];
+import {Redirect} from 'react-router-dom'
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -31,38 +21,53 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function Orders() {
+
+export default function Orders(props) {
   const classes = useStyles();
+  console.log(props.data)
+  const handleEdit = () => (
+    <Redirect to="/dashboard/update" />
+  )
+  const handleDelete = () => {
+
+  }
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
       <Table size="small">
         <TableHead>
           <TableRow>
-            <TableCell>Date</TableCell>
-            <TableCell>Name</TableCell>
-            <TableCell>Ship To</TableCell>
-            <TableCell>Payment Method</TableCell>
-            <TableCell align="right">Sale Amount</TableCell>
+            <TableCell>Category</TableCell>
+            <TableCell>Url</TableCell>
+            <TableCell>State</TableCell>
+            <TableCell>Status</TableCell>
+            <TableCell>Title</TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
+            <TableCell></TableCell>
           </TableRow>
         </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id}>
-              <TableCell>{row.date}</TableCell>
-              <TableCell>{row.name}</TableCell>
-              <TableCell>{row.shipTo}</TableCell>
-              <TableCell>{row.paymentMethod}</TableCell>
-              <TableCell align="right">{row.amount}</TableCell>
+        {  <TableBody>
+          {props.data.websites.map((website) => (
+            <TableRow key={website.url}>
+              <TableCell>{website.category}</TableCell>
+              <TableCell>{website.url}</TableCell>
+              <TableCell>{website.location}</TableCell>
+              <TableCell>{website.location}</TableCell>
+              <TableCell>{website.title}</TableCell>
+              <TableCell><EditIcon onClick={handleEdit}/></TableCell>
+              <TableCell><DeleteIcon onClick={handleDelete}/></TableCell>
+              <TableCell></TableCell>
             </TableRow>
           ))}
-        </TableBody>
+        </TableBody>  }
       </Table>
       <div className={classes.seeMore}>
-        <Link color="primary" href="#" onClick={preventDefault}>
+        <Link color="primary" to="#" onClick={preventDefault}>
           See more orders
         </Link>
       </div>
     </React.Fragment>
   );
 }
+
