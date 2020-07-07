@@ -80,7 +80,7 @@ const useStyles = makeStyles((theme) => ({
   title: {
     flexGrow: 1,
   },
-  drawerPaper: {
+  drawerPaper: { 
     position: 'relative',
     whiteSpace: 'nowrap',
     width: drawerWidth,
@@ -164,13 +164,13 @@ export default function Dashboard() {
   const handlePublish = () => (
     (<Redirect to="/dashboard/publish" component={Publish} />)
   )
-  const handleEdit = () => (
-    edit.map((id)=>{
-      
-    })
+
+
+    
 
   return (
     <div className={classes.root}>
+      <div className={classes.toolbarMargin} />
       <CssBaseline />
       <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
         <Toolbar className={classes.toolbar}>

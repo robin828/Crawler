@@ -10,8 +10,8 @@ import Dashboard from './user_page/Dashboard'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom'
 function App() {
   const [local, setLocal] = React.useState({});
-  console.log(local)
   return (
+   
     <Router>
     <div>
       <Nav />

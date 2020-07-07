@@ -10,6 +10,9 @@ import Title from './Title';
 import {Redirect} from 'react-router-dom'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -18,6 +21,17 @@ function preventDefault(event) {
 const useStyles = makeStyles((theme) => ({
   seeMore: {
     marginTop: theme.spacing(3),
+  },
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3),
   },
 }));
 
@@ -31,6 +45,15 @@ export default function Orders(props) {
   const handleDelete = () => {
 
   }
+  const [open, setOpen] = React.useState(false);
+
+  const handleOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <React.Fragment>
       <Title>Recent Orders</Title>
@@ -55,13 +78,32 @@ export default function Orders(props) {
               <TableCell>{website.location}</TableCell>
               <TableCell>{website.location}</TableCell>
               <TableCell>{website.title}</TableCell>
-              <TableCell><EditIcon onClick={handleEdit}/></TableCell>
+              <TableCell><EditIcon onClick={handleOpen}/></TableCell>
               <TableCell><DeleteIcon onClick={handleDelete}/></TableCell>
               <TableCell></TableCell>
             </TableRow>
           ))}
         </TableBody>  }
       </Table>
+      <Modal
+        aria-labelledby="transition-modal-title"
+        aria-describedby="transition-modal-description"
+        className={classes.modal}
+        open={open}
+        onClose={handleClose}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+        }}
+      >
+        <Fade in={open}>
+          <div className={classes.paper}>
+            <h2 id="transition-modal-title">Transition modal</h2>
+            <p id="transition-modal-description">react-transition-group animates me.</p>
+          </div>
+        </Fade>
+      </Modal>
       <div className={classes.seeMore}>
         <Link color="primary" to="#" onClick={preventDefault}>
           See more orders
