@@ -7,6 +7,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
+import Testing from '../components/Testing'
 import {Redirect} from 'react-router-dom'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -15,10 +16,6 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Axios from 'axios'
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
-import Grid from '@material-ui/core/Grid';
-import FormControl from '@material-ui/core/FormControl';
-import NativeSelect from '@material-ui/core/Select';
 
 function preventDefault(event) {
   event.preventDefault();
@@ -202,118 +199,21 @@ const handleState = (e)=>{
         <Fade in={open}>
           <div className={classes.paper}>
             <h2 id="transition-modal-title">Update Website</h2>
-            <form className={classes.form} onSubmit={updateWebsite}>
-        <Grid container spacing={2}>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="category"
-              value={category}
-              onChange={handleCategory}
-              variant="outlined"
-              required
-              fullWidth
-              id="category"
-              label="Category"
-              autoFocus
-            />
-          </Grid>
-          <Grid item xs={12} sm={6}>
-            <TextField
-              variant="outlined"
-              required
-              fullWidth
-              name="title"
-              label="Title"
-              type="text"
-              id="title"
-              value={title}
-              onChange={handleTitle}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              variant="outlined"
-              value={url}
-              onChange={handleUrl}
-              required
-              fullWidth
-              name="url"
-              label="Url"
-              id="url"
-            />
-          </Grid>
-          <Grid item xs={12}>
-      <FormControl variant="outlined">
-          <NativeSelect defaultValue="Select State" onChange={handleState}>
-            <option value="Select State">Select State</option>
-  {city.map((data, i)=> <option key={i} value={data.state}>{data.state}</option>)} 
-          </NativeSelect>
-      </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-      <FormControl variant="outlined">
-          <NativeSelect defaultValue="Select Districts" onChange={handleDistrict}>
-            <option value="Select Districts">Select Districts</option>
-  {district1.map((data, i)=> <option key={i} value={data}>{data}</option>)} 
-          </NativeSelect>
-      </FormControl>
-      </Grid>
-          {/* <Grid item xs={12}>
-
-          <FormControl variant="outlined" className={classes.formControl} onChange={handleLocation}>
-          <NativeSelect value='Select State' onChange={handleState} className={classes.sizes}>
-            <option value='Select State'>Select State</option>
-              {city.map((city)=>(
-              <option key={city.state} value={city.state}>{city.state}</option>
-            ))}
-          </NativeSelect>
-      </FormControl>
-      </Grid>
-      <Grid item xs={12}>
-      <FormControl variant="outlined" className={classes.formControl} onChange={handleDistrict}>
-          <NativeSelect value='Select District' className={classes.sizes}>
-            <option value='Select District'>Select District</option>
-              {district1.map((dis)=>( 
-              <value key={dis} value={dis} >{dis}</value>
-            ))}
-          </NativeSelect>
-      </FormControl>
-         
-          {/* /* <FormControl variant="outlined" className={classes.formControl}>
-        <InputLabel id="demo-simple-Nativeselect-outlined-label">States</InputLabel>
-        <NativeSelect
-          labelId="demo-simple-Nativeselect-outlined-label"
-          id="demo-simple-Nativeselect-outlined"
-          value={location}
-          onChange={handleLocation}
-          label="States"
-          className={classes.sizes}
-        >         
-         {city.map((city)=>(
-              <MenuItem key={city.state} value={location}>{city.state}</MenuItem>
-            ))}
-        </NativeSelect>
-      </FormControl>*/}
-             
-              
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          className={classes.submit}
-        >
-          Update
-        </Button>
-        <Grid container justify="flex-end">
-          <Grid item>
-            <Link to="/login" variant="body2">
-              Already have an account? Sign in
-            </Link>
-          </Grid>
-        </Grid>
-        </Grid>
-      </form>
+            <Testing 
+                publishWebsite={updateWebsite}
+                handleTitle={handleTitle}
+                handleUrl={handleUrl}
+                handleDistrict={handleDistrict}
+                handleCategory={handleCategory}
+                handleState={handleState}
+                district1={district1}
+                category={category}
+                location={location}
+                district={district}
+                url={url}
+                title={title}
+                city={city}
+    />
           </div>
         </Fade>
       </Modal>
