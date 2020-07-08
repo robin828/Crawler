@@ -38,10 +38,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Publish = (props) => {
   const classes = useStyles();
-  const [states, setStates] = useState([])
   const [city, setCity] = useState([])
   const publishWebsite = (e) => {
     e.preventDefault()
+    console.log(props.local)
     fetch('http://3.7.205.75:8080/publish/website', {
     method: 'post',
     body: JSON.stringify({
