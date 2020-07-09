@@ -20,7 +20,7 @@ function App() {
         <Route exact path="/login" render={()=><Login setLocal={setLocal}/>}/>
         <Route exact path="/Signup" component={Signup}/>
         <Route exact path="/forgotPassword" component={ForgotPassword}/>
-        <Route exact path="/dashboard" component={Dashboard}/>
+        <Route exact path="/dashboard" render={()=><Dashboard local={local}/>}/>
         <Route exact path="/dashboard/publish" render={()=><Publish local={local}/>}/>
       </Switch>  
     </div>

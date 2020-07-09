@@ -128,7 +128,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-export default function Dashboard() {
+export default function Dashboard(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   const [edit, setEdit] = React.useState("")
@@ -152,6 +152,7 @@ export default function Dashboard() {
     const getWebsites = async () => {
     const Id = sessionStorage.getItem('userId')
     setId(Id)
+    console.log(Id)
       const users = await Axios.get(`http://3.7.205.75:8080/publish/website?userId=${id}`);  
       const hits = users.data
       setData(hits)
@@ -165,6 +166,7 @@ export default function Dashboard() {
     (<Redirect to="/dashboard/publish" component={Publish} />)
   )
 
+  const local = props.local
 
     
 
@@ -217,14 +219,14 @@ export default function Dashboard() {
             {/* Recent Deposits */}
             <Grid item xs={12} md={4} lg={3}>
               <Paper className={fixedHeightPaper}>
-                <Deposits data={data}/>
+                <Deposits data={data} local={local}/>
               </Paper>
             </Grid>
             <form className={classes.searchField} noValidate autoComplete="off">
             <TextField id="standard-basic" label="Standard" />
             <Button>Search</Button>
             </form>
-            <Link to="/dashboard/publish" ><Button onClick={handlePublish}>Publish</Button></Link>
+            <Link to="/dashboard/publish"><Button onClick={handlePublish}>Publish</Button></Link>
             {/* Recent Orders */}
             <Grid item xs={12}>
               <Paper className={classes.paper}>

@@ -15,7 +15,6 @@ const Publish = (props) => {
 
   const publishWebsite = (e) => {
     e.preventDefault()
-    console.log(props.local)
     fetch('http://3.7.205.75:8080/publish/website', {
     method: 'post',
     body: JSON.stringify({
@@ -24,7 +23,7 @@ const Publish = (props) => {
         district: district,
         url: url,
         title: title,
-        userId: props.local,
+        userId: sessionStorage.getItem('userId'),
     }),
         
     headers: {
@@ -61,6 +60,8 @@ const handleUrl = (e) => {
 const handleTitle = (e) => {
   setTitle(e.target.value)
 }
+
+  
     return (
     <Testing 
     publishWebsite={publishWebsite}
@@ -76,6 +77,7 @@ const handleTitle = (e) => {
     url={url}
     title={title}
     city={city}
+    
 
     />
 );

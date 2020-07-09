@@ -8,6 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Title from './Title';
 import Testing from '../components/Testing'
+import Login from '../components/Login'
 import {Redirect} from 'react-router-dom'
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -41,7 +42,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Orders(props) {
   const classes = useStyles();
-  console.log(props.data)  
+  const [editId, setEditId] = useState("")    // To transfer userId to updateWebsite
+  const [open, setOpen] = React.useState(false); // To check Modal Activity
+  const [district1, setDistrict1] = useState([])
+  const [category, setCategory] = useState('')
+  const [location, setLocation] = useState('')
+  const [district, setDistrict] = useState('')
+  const [url, setUrl] = useState('')
+  const [title, setTitle] = useState('')
+  const [city, setCity] = useState([])
 
   // Main Edit put request
   const updateWebsite = (e) => {
@@ -55,43 +64,33 @@ export default function Orders(props) {
         district: district,
         url: url,
         title: title,
-        userId: props.local,
+        userId: sessionStorage.getItem('userId'),
         id: editId,
-    }),
-        
+    }),   
     headers: {
       "Content-type": "application/json; charset=UTF-8"
     }
   })
   .then(response => response.json())
   .then(json => console.log(json.status))
-  
 }
 
-  
 
   // Main Delete request
   const handleDelete = (id) => {
     const editId = [id]
     Axios.delete("http://3.7.205.75:8080/publish/website", {
-
       data: {
         ids: editId
       }
     }).then(res => console.log(res));
     console.log(id)
   }
-  const [editId, setEditId] = useState("")    // To transfer userId to updateWebsite
-  const [open, setOpen] = React.useState(false); // To check Modal Activity
-
-
 
   // when we click edit button in picture
   const handleEdit = (id)=>{
     handleOpen()
-    console.log(id)
     setEditId(id)
-
   }
 
   //set Modal open
@@ -99,13 +98,10 @@ export default function Orders(props) {
     setOpen(true);
   };
 
-
   //set Modal close
   const handleClose = () => {
     setOpen(false);
-
   };
-  const [city, setCity] = useState([])
 
   // Fetching States
   useEffect(()=>{
@@ -116,37 +112,23 @@ export default function Orders(props) {
     }
     fetchState()
     },[setCity])
-  const [district1, setDistrict1] = useState([])
-const [category, setCategory] = useState('')
-const [location, setLocation] = useState('')
-const [district, setDistrict] = useState('')
-const [url, setUrl] = useState('')
-const [title, setTitle] = useState('')
 
     // Fetching District regarding the required state
 const handleState = (e)=>{
-  
   setLocation(e.target.value)
   city.map((cities) => {
-      //console.log(cities.state)
-      //console.log(cities)
       if(e.target.value===cities.state){
           setDistrict1(cities.districts)
-      //console.log(district)
-      //console.log("district")
       }
   })
 }
-
  // Handle update page
   const handleCategory = (e) => {
     setCategory(e.target.value)
   }
-  
   const handleDistrict = (e) => {
     setDistrict(e.target.value)
   }
-  
   const handleUrl = (e) => {
     setUrl(e.target.value)
   }
@@ -213,7 +195,8 @@ const handleState = (e)=>{
                 url={url}
                 title={title}
                 city={city}
-    />
+                local={props.local}
+            />
           </div>
         </Fade>
       </Modal>
