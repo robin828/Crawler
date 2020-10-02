@@ -53,6 +53,12 @@ export default function SignIn(props) {
   const [password, setPassword] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
 
+  const handleChange = (e) => {
+    setUser(e.target.value)   
+}
+const handlePass = (e) => {  
+    setPassword(e.target.value)
+}
   
 const login = (e) =>{
     e.preventDefault()
